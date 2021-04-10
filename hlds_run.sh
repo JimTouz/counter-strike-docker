@@ -23,6 +23,10 @@ START_MONEY="${START_MONEY:-800}"
 BUY_TIME="${BUY_TIME:-0.25}"
 FRIENDLY_FIRE="${FRIENDLY_FIRE:-1}"
 
+# configure admin name:password
+ADMIN_NAME=$(echo $ADMIN_NAMEPW | cut -d':' -f1)
+ADMIN_PW=$(echo $ADMIN_NAMEPW | cut -d':' -f2)
+
 OPTIONS=( "-game" "${GAME}" "+maxplayers" "${MAXPLAYERS}" "+map" "${START_MAP}" "+hostname" "\"${SERVER_NAME}\"" "+mp_startmoney" "${START_MONEY}" "+mp_friendlyfire" "${FRIENDLY_FIRE}" "+mp_buytime" "${BUY_TIME}")
 
 if [ -z "${RESTART_ON_FAIL}" ]; then
@@ -39,6 +43,10 @@ fi
 
 if [ -n "${ADMIN_STEAM}" ]; then
     echo "\"STEAM_${ADMIN_STEAM}\" \"\"  \"abcdefghijklmnopqrstu\" \"ce\"" >> "/opt/hlds/cstrike/addons/amxmodx/configs/users.ini"
+fi
+
+if [ -n "${ADMIN_NAMEPW}" ]; then
+    echo "\"${ADMIN_NAME}\" \"${ADMIN_PW}\"  \"abcdefghijklmnopqrstu\" \"a\"" >> "/opt/hlds/cstrike/addons/amxmodx/configs/users.ini"
 fi
 
 set > "${CONFIG_FILE}"
